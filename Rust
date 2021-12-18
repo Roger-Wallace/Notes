@@ -1,4 +1,99 @@
 ===== Installing & Updating Rust =====
 
 --- LINUX --- 
-	- Rust will be installed in your user's home directory under $HOME/.cargo 
+	- Rust will be installed in your user's home directory under "~/.cargo"
+		* This means it will not be installed globally (for all users) on the system
+		* It should update your ~/.bash_profile so that it is loaded on login but you may need to add it manually
+To Install:
+$ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
+
+    * You also need to install a compiler such as gcc
+
+To Update:
+$ rustup update
+
+To Uninstall:
+$ rustup self uninstall
+
+===== Creating a project =====
+
+--- Manual Method ---
+	- $ mkdir ~/rust_project_dir/project_name
+	- $ cd ~/rust_project_dir/project_name
+	- Create a source file ending with ".rs"
+	- Start building
+
+--- Cargo Method ---
+	- Makes managing the project easier as it handles dependencies, helps debug, and more.
+	- $ cargo new "project_name"
+	- $ cd ~/project_name/env  	// Where the source files are stored.
+	- Start building
+
+--- Essentials to building your program ---
+
+- Functions are defined as follows:
+	** The "main" function is always the first function in the program. **
+
+fn main(<parameters>) {
+Code goes here
+}
+
+- Example Function
+
+fn main() {
+
+    println!("Hello, world!") 
+}
+	
+    * The "!" in "println!()" denotes that it is a Rust macro.
+    * If there wasn't an "!", it would be calling the println function instead.
+
+- Compiling
+
+    * If project was made manually:
+	$ rustc /path/to/source_file.rs
+    
+    * If project was made using Cargo:
+	$ cargo build	// Run in project dir
+	$ cargo run	// Will compile then run the program
+
+    * Once the program is compiled, a binary executable file is output in the project dir.
+		
+- Running
+
+    $ /path/to/executable
+
+    * If you started the project with Cargo, you can compile and run the program with:
+	$ cargo run	// Run in project dir
+
+- Additional Cargo Functionality
+
+    * Once the project is created, there will be a config file named "Cargo.toml" created in the project dir.
+	- It has two sections: 	[Package] - Configures the packages name, version, and Rust edition
+				[Dependencies] - Lists the libraries the program needs.
+	- Example:
+
+[roger@Lusitania-Alpha guessgame]$ cat Cargo.toml 
+[package]
+name = "guessgame"
+version = "0.1.0"
+edition = "2021"
+
+- It also initializes the project dir as a git repo for version control and publishing
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rand = "0.8.3"
+
+
+    * Once program is compiled by Cargo:
+	- The executable is placed in ~/project_dir/target/debug/program_name
+	- A "Cargo.lock" file is created in the project dir.
+		* This tracks the dependencies versions to ensure the program builds the same on any system
+
+    * When your program is ready for realease, build the program with:
+	$ cargo build --version	//
+	
+	- This optimizes the program during the build so it runs faster
+	- The executable is also placed in "~/project_dir/target/release/project_name"
