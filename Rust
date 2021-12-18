@@ -1,0 +1,4 @@
+===== Installing & Updating Rust =====
+
+--- LINUX --- 
+	- Rust will be installed in your user's home directory under $HOME/.cargo 
