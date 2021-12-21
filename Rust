@@ -1,21 +1,25 @@
-===== Installing & Updating Rust =====
+=====================================================
+Installing & Updating Rust
+=====================================================
 
 --- LINUX --- 
 	- Rust will be installed in your user's home directory under "~/.cargo"
 		* This means it will not be installed globally (for all users) on the system
 		* It should update your ~/.bash_profile so that it is loaded on login but you may need to add it manually
-To Install:
+- To Install:
 $ curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 
-    * You also need to install a compiler such as gcc
+    * You also need to separately install a compiler such as gcc
 
-To Update:
+- To Update:
 $ rustup update
 
-To Uninstall:
+- To Uninstall:
 $ rustup self uninstall
-
-===== Creating a project =====
+  
+=====================================================
+Creating a project 
+=====================================================
 
 --- Manual Method ---
 	- $ mkdir ~/rust_project_dir/project_name
@@ -29,7 +33,9 @@ $ rustup self uninstall
 	- $ cd ~/project_name/env  	// Where the source files are stored.
 	- Start building
 
---- Essentials to building your program ---
+=====================================================
+Essentials to building your program
+=====================================================
 
 - Functions are defined as follows:
 	** The "main" function is always the first function in the program. **
@@ -47,6 +53,11 @@ fn main() {
 	
     * The "!" in "println!()" denotes that it is a Rust macro.
     * If there wasn't an "!", it would be calling the println function instead.
+
+- Calling to use a type (function?) from a library/crate:
+use library::type
+** At beginning of code above the main function
+"use std::io"
 
 - Compiling
 
@@ -72,20 +83,40 @@ fn main() {
 	- It has two sections: 	[Package] - Configures the packages name, version, and Rust edition
 				[Dependencies] - Lists the libraries the program needs.
 	- Example:
-
+-----
 [roger@Lusitania-Alpha guessgame]$ cat Cargo.toml 
 [package]
 name = "guessgame"
 version = "0.1.0"
 edition = "2021"
 
-- It also initializes the project dir as a git repo for version control and publishing
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 rand = "0.8.3"
+-----
 
+    * Cargo also initializes the project directory as a git directory
+	- To upload it to Github:
+-----
+[roger@Lusitania-Alpha guessgame]$ git remote add origin git@github.com:Roger-Wallace/guessgame
+[roger@Lusitania-Alpha guessgame]$ git add .
+[roger@Lusitania-Alpha guessgame]$ git commit -m "First Commit"
+[master (root-commit) e99fa23] First Commit
+ 4 files changed, 122 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 Cargo.lock
+ create mode 100644 Cargo.toml
+ create mode 100644 src/main.rs
+[roger@Lusitania-Alpha guessgame]$ git push --set-upstream origin master
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (7/7), 1.58 KiB | 1.58 MiB/s, done.
+Total 7 (delta 0), reused 0 (delta 0), pack-reused 0
+To github.com:Roger-Wallace/guessgame
+ * [new branch]      master -> master
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+-----
 
     * Once program is compiled by Cargo:
 	- The executable is placed in ~/project_dir/target/debug/program_name
@@ -97,3 +128,93 @@ rand = "0.8.3"
 	
 	- This optimizes the program during the build so it runs faster
 	- The executable is also placed in "~/project_dir/target/release/project_name"
+
+=====================================================
+Variables
+=====================================================
+
+- To create a variable to hold a value:
+Ex. 'let mut guess = String::new();
+    * Rust variables are immutable by default, so the "mut" is needed to make the valuable mutable
+    * "String::new()" is called t
+
+- A set of curly brackets written like so, "{}", are used as a placeholder for values.
+    Ex.
+
+    * You can add as many sets of brackets as you need, so the 1st set holds the 1st value, the 2nd set holds the 2nd value and so on.
+
+-----
+fn main() {
+
+    println!("You guessed: {}", guess);	// The brackets here hold the value denoted by "guess"
+
+}
+-----
+
+- To accept input from the user and bind the value the input to a variable:
+
+----
+    io::stdin()
+	.read_line(&mut guess)
+	.expect("Failed to read input.")
+-----
+    
+    * .read_line calls the read_line method of accepting input from the user as a string argument
+    * the '&' indicates that the argument is a reference, specifcally to the guess variable.
+    * .expect uses the io::Result method to handle any failures
+	- The io::Result method is a type called 'enumerations' or 'enums'. Enums are types that can hold a fixed set of values, where the values are called 'variants'.
+
+=====================================================
+Looping
+=====================================================
+
+- You can start an infinite loop of a piece of your code by enclosing it in the loop function
+
+    * Ex.
+-----
+loop {
+
+<Looped code here>
+
+}
+-----
+
+- Now to quit the program after a correct guess
+
+    * Ex.
+
+loop {
+        //snip
+        
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too Small!"),
+        Ordering::More => println!("Too Large!"),
+        Ordering::Equal => {
+            println!("Just right!");
+            break;
+        }
+    }
+}
+
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
+=====================================================
